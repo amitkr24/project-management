@@ -13,7 +13,6 @@ module.exports.create = function(req,res){
     User.findOne({email: req.body.email}, function(err,user){
         if(err){ console.log('error in finding user in signing up'); return }
         if(!user){
-            console.log(req.body);
             User.create(req.body,function(err,user){
                 if(err){ console.log('error in creating user in signing up'); return }
                 return res.redirect('/');
@@ -35,7 +34,7 @@ module.exports.check_user = function(req,res){
             return res.redirect('back');
         }else {
             //res.cookie('user_id', user.id);
-            return res.redirect('/');
+            return res.redirect('/project');
         }
     });
 };
