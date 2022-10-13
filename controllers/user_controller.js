@@ -1,10 +1,15 @@
 const User  = require('../models/user');
 let session = require('express-session'); 
 module.exports.login = function(req,res){
-    res.render('../view/login')
+    if(req.cookies.user_id){
+        return res.redirect('/project');
+    }else{
+        res.render('../view/login')
+    }
+    
 };
 module.exports.register = function(req,res){
-    res.render('../view/register')
+    res.render('../view/user/add-user')
 };
 module.exports.create = function(req,res){
     if(req.body.password  != req.body.confirm_password){

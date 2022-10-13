@@ -3,7 +3,6 @@ const Issue  = require('../models/issue'); // include project model
 
 //get all project
 module.exports.project = function(req,res){
-    console.log(req.cookies.user_id);
     if(req.cookies.user_id){
         return res.render('../view/project/index');
     }else{
