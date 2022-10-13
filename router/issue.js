@@ -6,6 +6,7 @@ const issueController = require('../controllers/issue_controller'); // issue con
 console.log('router loaded2');
 
 //issue router
+
 router.all('/:id',issueController.index);                   // listing of issue route
 router.get('/create/:id',issueController.issueCreate);      // creating route for issue
 router.post('/issue/add_issue', issueController.addIssue);  // add data to db route after form submit

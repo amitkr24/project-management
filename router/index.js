@@ -4,7 +4,6 @@ const db              = require('../config/mongoose'); // included mongooose for
 
 console.log('router loaded');
 
-
 router.use('/',require('./user'));    // route added for label
 router.use('/project',require('./project'));    // route added for label
 

@@ -1,4 +1,5 @@
-const User = require('../models/user');
+const User  = require('../models/user');
+let session = require('express-session'); 
 module.exports.login = function(req,res){
     res.render('../view/login')
 };
@@ -6,7 +7,6 @@ module.exports.register = function(req,res){
     res.render('../view/register')
 };
 module.exports.create = function(req,res){
-    console.log('enter');
     if(req.body.password  != req.body.confirm_password){
         return res.redirect('back');
     }
@@ -24,8 +24,9 @@ module.exports.create = function(req,res){
 };
 
 module.exports.check_user = function(req,res){
-    console.log(req.body);
+    
     User.findOne({email: req.body.email}, function(err,user){
+        
         if(err){
             console.log('error in fetching contact from db');
             return ;
@@ -33,8 +34,8 @@ module.exports.check_user = function(req,res){
         if(user.password!=req.body.password){
             return res.redirect('back');
         }else {
-            //res.cookie('user_id', user.id);
-            return res.redirect('/project');
+            res.cookie('user_id', user.id);
+            return res.redirect('/project',);
         }
     });
 };
