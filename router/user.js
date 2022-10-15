@@ -13,7 +13,7 @@ router.get('/list',userController.index);
 router.get('/:id/edit',userController.show);     
 router.get('/register',userController.register);        
 router.post('/create',userController.create);
-router.post('/update',userController.updateUser);
+router.post('/:id/update',userController.updateUser);
 router.get('/destroy/:id',userController.destroy);
 
 module.exports = router;

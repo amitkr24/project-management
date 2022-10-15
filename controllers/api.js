@@ -5,8 +5,14 @@ let session = require('express-session');
 module.exports.index = async function(req,res){
     try{
         let user= await User.find({}).sort("createdAt");
-        return res.render('../view/user/index',{data:user});
+        //return res.render('../view/user/index',{data:user});
         //console.log(user);
+        return res.status(405).json({
+            message: 'All user data',
+            data:{
+                userdata:user
+            }
+        })
     }
     catch(err){
         return res.status(500).json({
@@ -21,10 +27,28 @@ module.exports.register = function(req,res){
 
 module.exports.create = async function(req,res){
     try {
-        let user = await User.findOne({email:req.body.email}); 
+        let user = await User.findOne({email: req.body.email});
+        let email = user.email;
+        let phone = user.email; 
         if(!user){
             let userAdded = await User.create(req.body);
-            return res.redirect('/list');
+            //return res.redirect('/list');
+            return res.status(405).json({
+                message: 'User Created Successfully',
+                data:{
+                    userdata:userAdded
+                }
+            })
+        }else {
+            if(email == req.body.email){
+                return res.status(405).json({
+                    message: 'Email Already Exist',
+                })
+            }else if(phone == req.body.phone){
+                return res.status(405).json({
+                    message: 'Phone number Already Exist',
+                })
+            }
         }
     } catch {
         return res.json(500, {
@@ -72,7 +96,13 @@ module.exports.show = async function(req,res){
         let id = await req.params.id;
         let data = await req.body;
         let updated = await User.findByIdAndUpdate(id,data);
-        return res.redirect('/list');
+        //return res.redirect('/list');
+        return res.status(405).json({
+            message: 'User Updated Successfully',
+            data:{
+                userdata:data
+            }
+        })
     } catch {
         return res.json(500, {
             message: 'Internal Server Error'
@@ -84,7 +114,14 @@ module.exports.show = async function(req,res){
     try {
         let uid = await req.params.id;
         let destroy = await User.findByIdAndDelete(uid);
-        return res.redirect('/list');
+        //return res.redirect('/list');
+        return res.status(405).json({
+            message: 'User Deleted Successfully',
+            data:{
+                userdata:destroy
+            }
+        })
+
     } catch {
         return res.json(500, {
             message: 'Internal Server Error'

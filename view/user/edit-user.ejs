@@ -39,16 +39,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div>
-    <!---sidebar--->
     <%- include('../_sidebar'); %>  
     <!-- End of sidebar -->
     </div>
@@ -82,7 +72,7 @@
             <div class="card">
               <!-- /.card-header -->
               <div class="card-body">
-                <form action="/update" method="post">
+                <form action="/<%=id%>/update" method="post">
                   <div class="card-body">
                     <input type="hidden" name="userId" value="<%=id%>">
                     <div class="row">

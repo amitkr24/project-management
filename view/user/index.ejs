@@ -39,16 +39,6 @@
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
-      <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
-        </div>
-        <div class="info">
-          <a href="#" class="d-block">Alexander Pierce</a>
-        </div>
-      </div>
-    <!---sidebar--->
     <%- include('../_sidebar'); %>  
     <!-- End of sidebar -->
     </div>
@@ -99,6 +89,9 @@
                   <tbody>
                     <% for(var i=0; i< data.length; i++) { 
                       let userId = (data[i]._id.toString());%>
+                      <script>
+                        var uid = "<%= userId %>";            
+                      </script>
                       <tr>
                           <td><%= i+1%></td>
                           <td><%= data[i].firstname %></td>
@@ -107,8 +100,8 @@
                           <td><%= data[i].address %></td>
                           <td>
                             <a href="./<%=userId%>/edit/"><i class="fas fa-edit" style="color:green"></i></a>
-                            <a href="./destroy/<%=userId%>">
-                            <i class="fas fa-trash" style="color:red"></i></a>
+                            
+                            <i class="fas fa-trash" style="color:red;cursor: pointer;" onclick="checker(uid)"></i>
                           </td>
                       </tr>
                     <% }%>
@@ -142,5 +135,15 @@
 </div>
 <!-- ./wrapper -->
 <%- include('../_script'); %> 
+<script>
+  function checker(uid){
+  if(window.confirm("Are you sure want to delete")){
+    var base_url = window.location.origin;
+    window.location.href = base_url+"/destroy/"+uid;
+  } else {
+    return;
+    }
+  }
+</script>
 </body>
 </html>
