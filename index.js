@@ -5,6 +5,8 @@ const port            = 8005;
 const bodyParser      = require("body-parser"); //body parser include
 const router          = require('./router/index'); // router file included
 const session         = require('express-session');
+const flash           = require('connect-flash');
+const customMware     = require('./config/middleware');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended : true }));
@@ -12,17 +14,25 @@ app.use(bodyParser.urlencoded({ extended : true }));
 app.use(cookieParser());
 // define static path
 app.use(express.static('assets'));
-
+//make uploads path available to browser
+app.use('/uploads', express.static(__dirname+'/uploads'));
 app.set('view engine', 'ejs');
 
 
+app.use(session({
+    secret:'flashblog',
+    saveUninitialized: true,
+    resave: true
+}));
 
+app.use(flash());
+app.use(customMware.setFlash);
 app.use('/',router);
-app.use(cookieParser('project_management'));
+// app.use(cookieParser('project_management'));
 
-const oneDay = 1000 * 60 * 60 * 24;
+// const oneDay = 1000 * 60 * 60 * 24;
 
-app.use(session({secret: 'project_management', saveUninitialized: true, resave: false}));
+// app.use(session({secret: 'project_management', saveUninitialized: true, resave: false}));
 
 
 app.listen(port, () => {

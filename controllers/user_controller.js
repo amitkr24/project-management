@@ -22,8 +22,18 @@ module.exports.register = function(req,res){
 module.exports.create = async function(req,res){
     try {
         let user = await User.findOne({email:req.body.email}); 
+        console.log(user);
+        console.log(user.email);
+        console.log(req.body.email);
+        if(user.email == req.body.email){
+            console.log('test');
+            req.flash('error','Email Should be unique !');
+            return res.redirect('/list');
+        }
         if(!user){
+            req.body.avatar = req.file.filename;
             let userAdded = await User.create(req.body);
+            req.flash('success','User Created Successfully !');
             return res.redirect('/list');
         }
     } catch {
@@ -34,9 +44,7 @@ module.exports.create = async function(req,res){
 }
 
 // module.exports.check_user = function(req,res){
-    
 //     User.findOne({email: req.body.email}, function(err,user){
-        
 //         if(err){
 //             console.log('error in fetching contact from db');
 //             return ;
@@ -68,10 +76,13 @@ module.exports.show = async function(req,res){
  //update project
  module.exports.updateUser = async function(req,res){
     try {
-        console.log(req.params.id);
         let id = await req.params.id;
         let data = await req.body;
+        if(req.file){
+            data.avatar = req.file.filename;
+        }
         let updated = await User.findByIdAndUpdate(id,data);
+        req.flash('success','User Updated Successfully !');
         return res.redirect('/list');
     } catch {
         return res.json(500, {

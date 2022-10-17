@@ -2,6 +2,17 @@
 const express = require('express');
 const router  = express.Router();
 
+var multer = require('multer');
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    cb(null, './uploads');
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now() + "-" + file.originalname)
+  }
+})
+var upload = multer({ storage: storage});
+
 //controller for listing
 const userController  = require('../controllers/user_controller'); // project controller added
 
@@ -12,8 +23,8 @@ const userController  = require('../controllers/user_controller'); // project co
 router.get('/list',userController.index);     
 router.get('/:id/edit',userController.show);     
 router.get('/register',userController.register);        
-router.post('/create',userController.create);
-router.post('/:id/update',userController.updateUser);
+router.post('/create',upload.single('avatar'),userController.create);
+router.post('/:id/update', upload.single('avatar'), userController.updateUser);
 router.get('/destroy/:id',userController.destroy);
 
 module.exports = router;
